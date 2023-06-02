@@ -33,12 +33,12 @@ def get_data(api_type: str = '', params: dict = None, use_v4: bool = True, ) -> 
     endpoint = get_endpoint(config.api_types[api_type], use_v4)
     res = GET(endpoint, params=params)
     data = False
-    
+
     if 200 <= res.status_code < 300:
         data = load_JSON(res.text)
         try:
             # remove unused key
-            data.pop('modules')
+            int(data.pop('modules'))
         except KeyError:
             pass
 
