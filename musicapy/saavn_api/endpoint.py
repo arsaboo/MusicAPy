@@ -38,7 +38,13 @@ def get_data(api_type: str = '', params: dict = None, use_v4: bool = True, ) -> 
         data = load_JSON(res.text)
         try:
             # remove unused key
-            int(data.pop('modules'))
+            modules = data.pop('modules')
+            if isinstance(modules, (int, float)):
+                modules = int(modules)
+            elif isinstance(modules, str):
+                modules = int(modules.strip())
+            else:
+                raise TypeError("Invalid input type for modules")
         except KeyError:
             pass
 
